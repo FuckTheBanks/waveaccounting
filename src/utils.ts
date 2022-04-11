@@ -8,6 +8,7 @@ export async function readText(page: Page, selector: string|ElementHandle) {
 
 export async function clickXPath(page: Page, xpath: string, index?: number) {
   await page.waitForXPath(xpath)
+  await sleep(100);
   const elements = await page.$x(xpath);
   if ((
     elements.length == 1 && index === undefined) || 
@@ -19,8 +20,8 @@ export async function clickXPath(page: Page, xpath: string, index?: number) {
   }
   return false;
 }
-export async function clickLink(page: Page, text: string, index?: number) {
-  const r = await clickXPath(page, `//a[contains(., '${text}')]`, index);
+export async function clickElement(page: Page, text: string, element: string="a", index?: number) {
+  const r = await clickXPath(page, `//${element}[contains(., '${text}')]`, index);
   if (r) {
     await page.waitForNavigation({waitUntil: "networkidle2"});
   }

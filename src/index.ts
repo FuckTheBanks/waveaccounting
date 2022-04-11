@@ -10,25 +10,29 @@ export class WaveScraper {
 
   username: string;
   password: string;
+  appId: string;
 
 
   ///////////////////////////////////////////////////////////////////////
   // Construction functions
-  private constructor(browser: puppeteer.Browser, username: string, password: string) {
+  private constructor(browser: puppeteer.Browser, username: string, password: string, appId: string) {
     this.browser = browser;
     this.username = username;
     this.password = password;
+    this.appId = appId;
   }
  
   public static async init(username?: string, password?: string, options?: puppeteer.BrowserLaunchArgumentOptions) {
 
     const user = username || process.env.WAVE_USERNAME;
     const pwd = password || process.env.WAVE_PASSWORD;
-    if (!user || !pwd)
+    const appId = password || process.env.WAVE_APPID;
+    if (!user || !pwd || !appId)
       throw new Error("Cannot initialize Payment Evolution scraper, no username or password")
 
-    const browser = await puppeteer.launch(options);
-    const pe = new WaveScraper(browser, user, pwd);
+    const browserURL = 'http://127.0.0.1:21222';
+    const browser = await puppeteer.connect({ browserURL });
+    const pe = new WaveScraper(browser, user, pwd, appId);
     const page = await pe.login();
 
     await page.close();
@@ -48,9 +52,9 @@ export class WaveScraper {
   // Helper functions
 
   public login = () => login(this.browser, this.username, this.password);
-  public newPage = async (url?: string) => {
+  public newPage = async (path?: string) => {
     const page = await this.browser.newPage();
-    await page.goto(url ?? urls.app);
+    await page.goto(`${urls.app}${this.appId}/${path}`);
     return page;
   }
 }
