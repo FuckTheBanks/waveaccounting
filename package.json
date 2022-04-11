@@ -1,0 +1,44 @@
+{
+  "name": "@fuckthebanks/waveaccounting",
+  "version": "0.2.0",
+  "description": "Web scraper to get around limitations in WaveAccounting",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc --project tsconfig.build.json",
+    "lint": "eslint ./src --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FuckTheBanks/WaveAccounting.git"
+  },
+  "keywords": [
+    "PaymentEvolutution",
+    "Accounting",
+    "puppeteer"
+  ],
+  "author": "FuckTheBanks",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FuckTheBanks/WaveAccounting/issues"
+  },
+  "homepage": "https://github.com/FuckTheBanks/WaveAccounting#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.21",
+    "luxon": "^2.3.1",
+    "puppeteer": "^13.4.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.166",
+    "@types/jest": "^26.0.19",
+    "@types/luxon": "^1.25.1",
+    "@types/puppeteer": "^5.4.2",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "eslint": "^7.16.0",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3"
+  }
+}
