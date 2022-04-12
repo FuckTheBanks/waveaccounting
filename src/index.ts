@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer';
 import { login } from './login';
 import urls from './urls.json';
 import { addJournalEntry } from './journal/addEntry';
+export { JournalEntry } from './journal/addEntry'
 
 export class WaveScraper {
 
@@ -28,7 +29,7 @@ export class WaveScraper {
     const pwd = password || process.env.WAVE_PASSWORD;
     const appId = password || process.env.WAVE_APPID;
     if (!user || !pwd || !appId)
-      throw new Error("Cannot initialize Payment Evolution scraper, no username or password")
+      throw new Error("Cannot initialize Wave Accounting scraper, no username or password")
 
     const browserURL = 'http://127.0.0.1:21222';
     const browser = await puppeteer.connect({ browserURL });

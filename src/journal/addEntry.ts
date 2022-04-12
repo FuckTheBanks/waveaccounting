@@ -1,7 +1,7 @@
 import { WaveScraper } from '..';
 import { sleep, clickXPath } from '../utils';
 
-type JournalEntry = {
+export type JournalEntry = {
   date: string, // NOTE: must be SQL format
   description: string;
   amount: number,
@@ -38,8 +38,9 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
   await page.type(descriptionSelector, entry.description, { delay: 20 });
   await sleep(100);
 
-  { 
-    await clickXPath(page, `//span[contains(text(), 'Uncategorized Expense')]`, 0);
+  {
+    // Not an error, click twice to engage things
+    await clickXPath(page, `//span[contains(text(), 'Uncategorized Income')]`, 0);
     await sleep(300);
     const options = await page.$$(".wv-select__menu ul > div.wv-select__menu__option");
     // @ts-ignore
@@ -49,9 +50,8 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
     await sleep(1500);
   }
 
-  {
-    // Not an error, click twice to engage things
-    await clickXPath(page, `//span[contains(text(), 'Uncategorized Income')]`, 0);
+  { 
+    await clickXPath(page, `//span[contains(text(), 'Uncategorized Expense')]`, 0);
     await sleep(300);
     const options = await page.$$(".wv-select__menu ul > div.wv-select__menu__option");
     // @ts-ignore
@@ -59,8 +59,9 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
     const index = optiontext.indexOf(entry.to);
     await options[index].click();
     await sleep(1500);
-
   }
+
+
   await 
   await page.type(srcAmountSelector, entry.amount.toString(), {delay: 20});
   await sleep(150);
