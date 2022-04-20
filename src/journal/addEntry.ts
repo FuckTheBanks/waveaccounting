@@ -62,7 +62,6 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
   }
 
 
-  await 
   await page.type(srcAmountSelector, entry.amount.toString(), {delay: 20});
   await sleep(150);
   //@ts-ignore
