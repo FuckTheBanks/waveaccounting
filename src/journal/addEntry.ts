@@ -16,11 +16,11 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
   console.log("Clicking Button");
   await page.waitForSelector("div.wv-header__actions.transactions-list-V2__header__actions > div > div > button");
   await sleep(1500);
-  await page.click("div.wv-header__actions.transactions-list-V2__header__actions > div > div > button");
+  await clickXPath(page, `//button[.='More']`);
   await sleep(500);
 
   console.log("Clicking XPath");
-  await clickXPath(page, `//a[contains(., 'Add journal transaction')]`);
+  await clickXPath(page, `//button[.="Add journal entry"]`);
   await sleep(1300);
 
   console.log("Entering Date");
@@ -46,7 +46,8 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
     // @ts-ignore
     const optiontext = await page.$$eval(".wv-select__menu ul > div.wv-select__menu__option", options => options.map(el => el.innerText));
     const index = optiontext.indexOf(entry.from);
-    await options[index].click();
+    // await options[index].click();
+    await page.evaluate(el => el.click(), options[index]);
     await sleep(1500);
   }
 
@@ -57,7 +58,9 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
     // @ts-ignore
     const optiontext = await page.$$eval(".wv-select__menu ul > div.wv-select__menu__option", options => options.map(el => el.innerText));
     const index = optiontext.indexOf(entry.to);
-    await options[index].click();
+    // await options[index].click();
+    await page.evaluate(el => el.click(), options[index]);
+
     await sleep(1500);
   }
 
@@ -71,7 +74,6 @@ export async function addJournalEntry(this: WaveScraper, entry: JournalEntry) {
   await clickXPath(page, "//button[contains(text(), 'Save')]", 0);
   await sleep(3000)
 }
-
-const srcAmountSelector = "#Content > div > div.wv-frame__wrapper > div.wv-frame__content > div.wv-frame__content__body > div.wv-frame__content__body__main > div > div > div.transactions-list-V2__list__container > div > div > div.wv-modal__window > div > div.wv-modal__content__scroll-area > div > div.transactions-list-v2__details > div.wv-nav--secondary > span > div > div.line-item-section.line-item-section__tablet > div:nth-child(1) > div > div > div.wv-form--vertical > div.wv-form-field.is-floating.fs-unmask > div > div > span > input";
-const dstAmountSelector = "#Content > div > div.wv-frame__wrapper > div.wv-frame__content > div.wv-frame__content__body > div.wv-frame__content__body__main > div > div > div.transactions-list-V2__list__container > div > div > div.wv-modal__window > div > div.wv-modal__content__scroll-area > div > div.transactions-list-v2__details > div.wv-nav--secondary > span > div > div.line-item-section.line-item-section__tablet > div:nth-child(2) > div > div > div.wv-form--vertical > div.wv-form-field.is-floating.fs-unmask > div > div > span > input";
-const descriptionSelector = "#Content > div > div.wv-frame__wrapper > div.wv-frame__content > div.wv-frame__content__body > div.wv-frame__content__body__main > div > div > div.transactions-list-V2__list__container > div > div > div.wv-modal__window > div > div.wv-modal__content__scroll-area > div > div.transactions-list-v2__details > div.wv-nav--secondary > span > div > div.transactions-list-v2__journal-entry__journal-entry-fields > div.wv-form-field.is-floating.transactions-list-v2__journal-entry__journal-entry-fields__description-form-field.fs-exclude > div > div > input"
+const srcAmountSelector = "#transaction-details-tabs-panel-0 > div > div > div.line-item-section.line-item-section__tablet > div:nth-child(1) > div > div > div.wv-form--vertical > div.wv-form-field.is-floating.fs-unmask > div > div > span > input";
+const dstAmountSelector = "#transaction-details-tabs-panel-0 > div > div > div.line-item-section.line-item-section__tablet > div:nth-child(2) > div > div > div.wv-form--vertical > div.wv-form-field.is-floating.fs-unmask > div > div > span > input";
+const descriptionSelector = "#transaction-details-tabs-panel-0 > div > div > div.transactions-list-v2__journal-entry__journal-entry-fields > div.wv-form-field.is-floating.transactions-list-v2__journal-entry__journal-entry-fields__description-form-field.is-stacked.fs-exclude > div > div > input"

@@ -7,17 +7,19 @@ export async function login(browser: Browser, username: string, password: string
 
   await page.goto(urls.login);
   
-  // await page.type("#id_username", username, { delay: 20 });
-  // await page.type("#id_password", password, { delay: 20 });
+  await page.type("#id_username", username, { delay: 20 });
+  await page.type("#password-input", password, { delay: 20 });
 
-  // const waiter = page.waitForNavigation({
-  //   waitUntil: "networkidle2",
-  // });
-  // await page.click("#js-sign-in-form > button");
-  // await waiter;
+  await Promise.all([
+    page.click("#sign-in-button"),
+    page.waitForNavigation({waitUntil: "networkidle2"})
+  ])
+
+  const delay = await page.waitForSelector("#Content .wv-logo")
+  console.log("Login Complete: " + !!delay);
 
   // Damn it wave, why you make things so hard?
-  debugger;
+  // debugger;
 
   return page;
 }

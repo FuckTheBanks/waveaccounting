@@ -5,7 +5,7 @@ beforeEach(() => {
   jest.setTimeout(5 * 60 * 1000)
 })
 
-it('can fetch payroll Records', async () => {
+it('can create journal Records', async () => {
   jest.setTimeout(5 * 60 * 1000);
   const wave = await WaveScraper.init(undefined, undefined, {
     headless: false

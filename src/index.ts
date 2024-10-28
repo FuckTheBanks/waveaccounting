@@ -31,8 +31,11 @@ export class WaveScraper {
     if (!user || !pwd || !appId)
       throw new Error("Cannot initialize Wave Accounting scraper, no username or password")
 
-    const browserURL = 'http://127.0.0.1:21222';
-    const browser = await puppeteer.connect({ browserURL });
+    // The following old code connects to a running instance of Chromium.
+    // const browserURL = 'http://127.0.0.1:21222';
+    // const browser = await puppeteer.connect({ browserURL });
+    // No idea why I thought that was useful, let's just try to launch a new one.
+    const browser = await puppeteer.launch(options);
     const pe = new WaveScraper(browser, user, pwd, appId);
     const page = await pe.login();
 
@@ -55,7 +58,7 @@ export class WaveScraper {
   public login = () => login(this.browser, this.username, this.password);
   public newPage = async (path?: string) => {
     const page = await this.browser.newPage();
-    await page.goto(`${urls.app}${this.appId}/${path}`);
+    await page.goto(`${urls.app}${this.appId}/${path}`, { timeout: 60_000, waitUntil: 'domcontentloaded' });
     return page;
   }
 }
